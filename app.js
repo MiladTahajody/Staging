@@ -144,7 +144,7 @@ const allProjects = [
     descEn:  '● Six Exclusive Styles</br>● Hybrid Navigations</br>● Image & Text Layouts</br>● Multi Language Support</br>● Interactive Item Selection',
     descFa:  '● شش مدل استایل لاکچری</br>● ناوبری دو حالته ترکیبی</br>● آیتمهای متنی ساده و عکس دار</br>● پشتیبانی از حالت چند زبانه</br>● انتخاب تعاملی آیتمهای داخل منو',
     menuUrl:  'https://digitalmenus.ir/Aroma/',
-    logoSrc:  '/logo/Aroma Logo.svg',
+    logoSrc:  'logo/Aroma Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/iClq5V2MxEg?autoplay=0&mute=1'
   },
   {
