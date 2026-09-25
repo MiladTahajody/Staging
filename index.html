@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  DIGITAL MENUS — Bilingual (EN/FA) portfolio page
+  ----------------------------------------------------------------
+  v8 — split into 3 files (index.html / style.css / app.js) with
+  the following behavior changes from the previous single-file
+  version:
+
+    1. Languages are now FULLY separated. English and Persian are
+       never shown at the same time — the language switch in the
+       header hides the inactive language entirely and flips the
+       page between LTR/RTL. See style.css section 3 and app.js
+       section F4 for the mechanism.
+    2. The 3 color-palette dots that used to sit inside each
+       project card have been removed.
+    3. Hero carousel images now load from a root-level folder
+       named "heroimages"; each project's logo (svg or png)
+       loads from a root-level folder named "logo". Both fall back
+       to a placeholder automatically if a file is missing.
+
+  Expected folder structure once you drop your real files in:
+    /index.html
+    /style.css
+    /app.js
+    /heroimages/slide-1.jpg  slide-2.jpg  slide-3.jpg  slide-4.jpg
+    /logo/cafe-aramesh.svg  cafe-nou.svg  ... (see app.js F2 for
+       the exact filename each project expects)
+  ================================================================
+-->
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Menus | منوهای دیجیتال</title>
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!-- Fonts: Outfit (English) + Vazirmatn (Persian) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+  <!-- External stylesheet — see style.css for all design tokens,
+       the language-visibility system, and layout rules -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       A. HEADER — logo placeholder + site name / contact button /
+          language switch (no top navigation — there is only one
+          unified menus section, so category links aren't needed)
+  ============================================================ -->
+  <header class="site-header">
+    <div class="header-inner">
+
+      <a href="#home" class="site-logo-group" aria-label="Digital Menus — Home">
+        <!-- SVG logo placeholder — replace with the real logo -->
+        <span class="site-logo-mark" aria-hidden="true">
+         <svg width="178" height="184" viewBox="0 0 176 182" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <path d="M155.273 95.9053C155.291 92.6268 159.028 90.7605 161.66 92.7166L174.387 102.178C175.402 102.933 176 104.124 176 105.388V153.547C176 156.738 172.448 158.644 169.789 156.881L156.801 148.267C155.677 147.521 155.004 146.26 155.012 144.912L155.273 95.9053Z" fill="#2C2C2C"/>
+           <path d="M143.398 84.4055C148.026 87.5839 148.026 94.4161 143.398 97.5945L50.779 161.204C45.4707 164.849 38.25 161.049 38.25 154.609V27.3909C38.25 20.9513 45.4707 17.1507 50.779 20.7964L143.398 84.4055Z" fill="#2C2C2C"/>
+           <path opacity="0.98" d="M69 73.6304C69 70.766 70.5313 68.1203 73.015 66.6935L151.015 21.885C156.348 18.8212 163 22.6711 163 28.8218V153.808C163 159.814 156.628 163.678 151.302 160.902L73.3021 120.243C70.6581 118.864 69 116.13 69 113.149V73.6304Z" fill="#63CCBF"/>
+           <line x1="98" y1="71" x2="138" y2="71" stroke="white" stroke-width="6" stroke-linecap="round"/>
+           <line x1="98" y1="91" x2="138" y2="91" stroke="white" stroke-width="6" stroke-linecap="round"/>
+           <line x1="98" y1="111" x2="138" y2="111" stroke="white" stroke-width="6" stroke-linecap="round"/>
+         </svg>
+        </span>
+        <span class="site-logo">
+          <span class="lang-en">Digital Menus</span>
+          <span class="lang-fa">منوهای دیجیتال</span>
+        </span>
+      </a>
+
+      <div class="header-actions">
+        <!-- Contact button — smooth-scrolls to the #contact block in the footer -->
+        <a href="#contact" class="btn-contact">
+          <svg width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="0" viewBox="3 3 18 18" aria-hidden="true">
+            <path d="M6.6 3.5h3.1l1.5 4.2-2.2 1.8a15.8 15.8 0 0 0 5.5 5.5l1.8-2.2 4.2 1.5v3.1a2.5 2.5 0 0 1-2.7 2.5C10.1 19.3 4.7 13.9 4.1 6.2A2.5 2.5 0 0 1 6.6 3.5z"/>
+          </svg>
+          <span class="lang-en">Contact Us</span>
+          <span class="lang-fa">تماس با ما</span>
+        </a>
+
+        <!-- Language switch: EN / FA — fully swaps the page,
+             see app.js section F4 -->
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">English</button>
+          <button type="button" class="lang-btn" data-lang="fa" aria-pressed="false">فارسی</button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       B. HERO — image carousel (unchanged model/layout, per client
+          request — only the image folder path changed, see app.js)
+  ============================================================ -->
+  <section id="home" class="hero-section" aria-label="Intro">
+    <!-- #heroCarousel = outer box (adds the decorative skew padding).
+         .hero-visual  = the actual fixed-ratio photo box (see
+         style.css sections 1 & 5 for the issue #1 / #2 fixes). -->
+    <div class="hero-carousel" id="heroCarousel">
+      <div class="hero-visual">
+        <div class="carousel-track" id="carouselTrack"></div>
+        <button class="carousel-btn prev" id="btnPrev" aria-label="Previous slide">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="carousel-btn next" id="btnNext" aria-label="Next slide">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="carousel-dots" id="carouselDots" role="tablist"></div>
+        <div class="carousel-progress" aria-hidden="true">
+          <div class="carousel-progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       C. MENUS SECTION — built by app.js (single unified section,
+          all project cards, no categories/no color-palette dots)
+  ============================================================ -->
+  <div id="sectionsContainer"></div>
+
+
+  <!-- ============================================================
+       D. FOOTER — includes the #contact block (target of the
+          header's "Contact Us" button)
+  ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <div class="site-logo">
+            <span class="lang-en">Digital Menus</span>
+            <span class="lang-fa">منوهای دیجیتال</span>
+          </div>
+          <p class="footer-tagline lang-en">Design of Unique , Modern , and Distinctive QR Digital Menus for Cafe , Restaurant , Fast-Food , and Bakery.</p>
+          <p class="footer-tagline lang-fa">طراحی منوهای دیجیتال قابل اسکن خاص , مدرن , و متفاوت برای کافه , رستوران‌ , فست فود و بیکری.</p>
+        </div>
+
+        <!-- id="contact" — scroll target of the header's Contact Us button -->
+        <div class="footer-contact" id="contact">
+          <h3 class="footer-contact-heading lang-en">Get in Touch</h3>
+          <h3 class="footer-contact-heading lang-fa">تماس با ما</h3>
+
+          <div class="contact-links">
+            <!-- ★ Replace YOUR_TELEGRAM with your Telegram username -->
+            <a href="https://t.me/milad_tahajody" target="_blank" rel="noopener noreferrer" class="contact-link telegram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+              <span class="lang-en">Telegram</span>
+              <span class="lang-fa">تلگرام</span>
+            </a>
+
+            <!-- ★ Replace YOUR_PHONE with your number + country code (e.g. 989123456789) -->
+            <a href="https://wa.link/mvhs6i" target="_blank" rel="noopener noreferrer" class="contact-link whatsapp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              <span class="lang-en">WhatsApp</span>
+              <span class="lang-fa">واتس‌اپ</span>
+            </a>
+
+            <!-- ★ Default Instagram handle set to digitalmenus.ir — change if needed -->
+            <a href="https://instagram.com/digitalmenus.ir" target="_blank" rel="noopener noreferrer" class="contact-link instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+              <span class="lang-en">Instagram</span>
+              <span class="lang-fa">اینستاگرام</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          <p class="footer-copy lang-en">© 2026 — All rights reserved</p>
+          <p class="footer-copy lang-fa">© ۱۴۰۵ — تمامی حقوق محفوظ است</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- External app logic — see app.js for data, carousel, language
+       switch, and card-building logic -->
+  <script src="/app.js"></script>
+</body>
+</html>

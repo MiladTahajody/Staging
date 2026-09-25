@@ -1,0 +1,532 @@
+/* ================================================================
+   DIGITAL MENUS — STYLESHEET
+   ----------------------------------------------------------------
+   File map (search these section numbers to jump around):
+     1. Design tokens (colors, fonts, radii, spacing)
+     2. Reset & base
+     3. Language visibility system (EN / FA — fully separated)
+     4. Header
+     5. Hero carousel
+     6. Menus section (single unified section, no categories)
+     7. Project cards
+     8. Lightbox (unused placeholder, kept for future use)
+     9. Footer
+    10. Scroll reveal animation
+    11. Responsive breakpoints
+   ================================================================ */
+
+/* ================================================================
+   1. DESIGN TOKENS
+   ---------------------------------------------------------------- */
+:root {
+  --clr-bg:         #ffffff;
+  --clr-surface:    #EBEBEB;
+  --clr-border:     #d5dbdb;
+  --clr-main:       #66CDC0;
+  --clr-gold-lt:    #E8B82A;
+  --clr-text:       #1A1A1A;
+  --clr-muted:      #6B6560;
+  --clr-sub:        #9B9590;
+  --clr-white:      #FFFFFF;
+  --clr-footer-bg:  #141210;
+
+  /* --------------------------------------------------------------
+     FONT CONFIGURATION
+     --------------------------------------------------------------
+     This is the ONE place to swap fonts later. Change the values
+     below and the whole site updates automatically.
+     If you have a custom font file (.woff2), declare an @font-face
+     above this block and reference it here, e.g.:
+
+       @font-face {
+         font-family: 'MyEnglishFont';
+         src: url('./fonts/my-english-font.woff2') format('woff2');
+       }
+       --ff-en: 'MyEnglishFont', 'Outfit', sans-serif;
+  ------------------------------------------------------------- */
+  --ff-en: 'Outfit', sans-serif;    /* English font — change here */
+  --ff-fa: 'Vazirmatn', sans-serif; /* Persian font — change here */
+
+  --radius-sm:  6px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --shadow-card:  0 2px 16px rgba(0,0,0,0.07);
+  --shadow-hover: 0 10px 36px rgba(0,0,0,0.14);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --header-h: 70px;
+
+  /* --------------------------------------------------------------
+     HERO IMAGE RATIO — fix for issue #2
+     --------------------------------------------------------------
+     Fixed width/height ratio for the hero photo, used as-is on
+     mobile, tablet, AND desktop — no media query anywhere changes
+     it. That's what keeps every slide framed identically no matter
+     the screen size (only the physical size scales, the crop
+     never does). Change this ONE value to reframe every slide at
+     once. Common values: 16/9, 4/3, 21/9.
+  ------------------------------------------------------------- */
+  --hero-ratio: 16 / 9;
+
+  /* Skew height used by the diagonal-cut zigzag between the hero,
+     the menus section, and the footer. Keep this value consistent
+     with the clip-path / margin math below — changing it updates
+     the whole zigzag system at once. NOTE: this only affects the
+     decorative cut, never the photo's ratio (see section 5). */
+  --skew: 5rem;
+
+  /* Extra safety gap so the hero caption / dots / progress bar
+     never overlap the diagonal cut at the bottom of the hero. */
+  --hero-safe-gap: 2.5rem;
+}
+
+/* ================================================================
+   2. RESET & BASE
+   ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+
+body {
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--ff-en); /* default language is English */
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* needed because the clip-path skews create overflow */
+}
+
+img { display: block; max-width: 100%; }
+a   { text-decoration: none; color: inherit; }
+ul  { list-style: none; }
+
+/* ================================================================
+   3. LANGUAGE VISIBILITY SYSTEM
+   ----------------------------------------------------------------
+   The site is now FULLY single-language at any given moment —
+   English and Persian are never shown at the same time.
+
+   How it works:
+     • <html lang="en" dir="ltr">  → only ".lang-en" elements show
+     • <html lang="fa" dir="rtl">  → only ".lang-fa" elements show
+     • app.js toggles the lang/dir attributes when the user clicks
+       the EN / FA switch buttons in the header.
+     • Every bilingual text node in the markup carries BOTH its
+       specific styling class (e.g. "caption-title") AND a language
+       marker class ("lang-en" or "lang-fa"). The marker class only
+       controls visibility + font-family; the specific class
+       controls size/weight/color.
+   ---------------------------------------------------------------- */
+.lang-en { font-family: var(--ff-en); }
+.lang-fa { font-family: var(--ff-fa); }
+
+html[lang="en"] .lang-fa { display: none !important; }
+html[lang="fa"] .lang-en { display: none !important; }
+
+/* ================================================================
+   4. HEADER
+   ---------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: rgba(250,248,243,0.93);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  gap: 1rem;
+}
+
+/* Logo group: SVG placeholder + site name */
+.site-logo-group { display: flex; align-items: center; gap: 0.7rem; flex-shrink: 0; }
+
+/* SVG logo placeholder — replace the inline <svg> in index.html
+   with your real logo (or swap it for an <img src="logo/brand.svg">)
+   once it's ready. */
+.site-logo-mark {
+  width: 38px; height: 38px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+}
+.site-logo-mark svg { width: 100%; height: 100%; }
+
+.site-logo { font-size: 1.15rem; font-weight: 700; color: var(--clr-text); line-height: 1.25; }
+
+/* Right-side header actions: contact button + language switch */
+.header-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+.btn-contact {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 18px; border-radius: var(--radius-md);
+  background: var(--clr-text); color: #fff;
+  border: 1.5px solid transparent; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600;
+  transition: var(--transition);
+}
+.btn-contact:hover { background: var(--clr-main); }
+.btn-contact svg { flex-shrink: 0; }
+
+/* Language switch — two-button toggle group (EN | FA).
+   The active language is bold + accent-colored; the inactive one
+   is muted. Clicking the inactive button switches the whole page. */
+.lang-switch {
+  display: flex; align-items: center; gap: 2px;
+  padding: 3px; border-radius: var(--radius-md);
+  background: var(--clr-surface); border: 1.5px solid var(--clr-border);
+}
+.lang-btn {
+  padding: 6px 12px; border-radius: calc(var(--radius-md) - 4px);
+  border: none; background: transparent; cursor: pointer;
+  font-size: 0.78rem; font-weight: 600; color: var(--clr-sub);
+  transition: var(--transition);
+}
+.lang-btn[aria-pressed="true"] { background: var(--clr-main); color: var(--clr-text); box-shadow: var(--shadow-card); }
+.lang-btn:hover { color: var(--clr-text); }
+
+/* --------------------------------------------------------------
+   FIX FOR ISSUE #3 — the switch buttons weren't inheriting the
+   correct font. Each label is written in its OWN language ("EN"
+   is English text, "فا" is Persian text), so each one now always
+   uses its matching font variable, exactly like every other
+   bilingual element on the page. This is intentionally separate
+   from the .lang-en/.lang-fa classes above, because those also
+   control show/hide — we need BOTH buttons visible at all times.
+------------------------------------------------------------- */
+.lang-btn[data-lang="en"] { font-family: var(--ff-en); }
+.lang-btn[data-lang="fa"] { font-family: var(--ff-fa); }
+
+
+/* ================================================================
+   5. HERO CAROUSEL (infinite loop, clone-based — logic in app.js)
+   ----------------------------------------------------------------
+   Zigzag system: the hero only needs its own height, and a negative
+   bottom margin equal to --skew. The section below (menus) has
+   padding-top > --skew and sits fully underneath the hero, so the
+   hero's diagonal clip-path reveals that section's flat color
+   through the cut — giving a seamless angled transition.
+
+   Structure: .hero-carousel (outer, adds the skew padding) >
+   .hero-visual (fixed-ratio photo box) > .carousel-track (the
+   sliding filmstrip, locked to LTR — see the fixes below).
+   ---------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  z-index: 4;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--skew)), 0 100%);
+  margin-bottom: calc(-1 * var(--skew));
+}
+
+/* --------------------------------------------------------------
+   FIX FOR ISSUE #2 — the old height was `100vh`-based, so it was
+   tied to each DEVICE'S OWN screen proportions: a tall narrow
+   phone produced a much taller (far more cropped) hero than a
+   wide short desktop, for the exact same photo. Now `.hero-visual`
+   uses a fixed `aspect-ratio: var(--hero-ratio)` based purely on
+   its WIDTH, with no media query ever touching it — so the same
+   portion of every photo is visible on phone, tablet, and desktop;
+   only the physical size scales.
+
+   The diagonal skew cut is now reserved as separate padding-bottom
+   on the outer `.hero-carousel`, so it never eats into the photo
+   or shifts its ratio.
+------------------------------------------------------------- */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  padding-bottom: var(--skew); /* space for the decorative skew cut — not part of the photo */
+  background: #0E0C0A;
+}
+
+.hero-visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--hero-ratio); /* fixed on every device — the actual fix for issue #2 */
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+  /* FIX FOR ISSUE #1 — force the slider's internal layout to always
+     be left-to-right, even when the page is in Persian/RTL. Without
+     this, the browser silently mirrors the flex child order whenever
+     dir="rtl" is set on <html>, but the JS position math (translateX)
+     still assumes left-to-right order. The two fight each other and
+     the track lands between slides — showing no image and no text,
+     which is exactly the "only works in one language" symptom. This
+     keeps the slider math correct regardless of language, while the
+     caption text still follows the page's real direction normally. */
+  direction: ltr;
+}
+
+.carousel-slide { min-width: 100%; height: 100%; position: relative; flex-shrink: 0; overflow: hidden; }
+.carousel-slide-img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+/* Shown only if the slide image at ./image carousel/ fails to load */
+.slide-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+.slide-placeholder-icon { opacity: 0.15; }
+.slide-placeholder-label { font-family: var(--ff-en); font-size: 0.8rem; letter-spacing: 0.12em; opacity: 0.25; color: #fff; }
+
+.carousel-slide::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(8,6,4,0.82) 0%, rgba(8,6,4,0.3) 45%, rgba(8,6,4,0.08) 100%);
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: var(--hero-safe-gap); /* relative to .hero-visual now — skew lives outside it, see above */
+  right: 0; left: 0; z-index: 10;
+  padding: 1rem 3rem 0;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.65s ease 0.3s, transform 0.65s ease 0.3s;
+}
+.carousel-slide.is-active .carousel-caption { opacity: 1; transform: translateY(0); }
+
+.caption-tag { display: inline-block; padding: 4px 14px; background: var(--Clr-main); color: #fff; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 999px; margin-bottom: 1rem; }
+.caption-tag.lang-fa { text-transform: none; letter-spacing: normal; }
+
+.caption-title { display: block; font-size: clamp(1.7rem, 4.5vw, 3rem); font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 0.7rem; text-shadow: 0 2px 16px rgba(0,0,0,0.45); }
+.caption-desc  { display: block; font-size: clamp(0.85rem, 1.5vw, 1rem); color: rgba(255,255,255,0.85); line-height: 1.85; max-width: 560px; }
+
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); backdrop-filter: blur(8px); }
+.carousel-btn:hover { background: rgba(200,150,12,0.75); border-color: var(--Clr-main); transform: translateY(-50%) scale(1.08); }
+.carousel-btn.prev { right: 1.75rem; }
+.carousel-btn.next { left: 1.75rem; }
+
+.carousel-dots {
+  position: absolute;
+  bottom: calc(var(--hero-safe-gap) * 0.45); /* relative to .hero-visual now */
+  left: 50%; transform: translateX(-50%); z-index: 20;
+  display: flex; gap: 8px; align-items: center;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); border: none; cursor: pointer; transition: var(--transition); padding: 0; }
+.dot.active { background: var(--Clr-main); width: 26px; border-radius: 999px; }
+
+.carousel-progress {
+  position: absolute;
+  bottom: 0; /* sits right at the bottom edge of .hero-visual, above the skew padding */
+  left: 0; right: 0; height: 3px;
+  background: rgba(255,255,255,0.1); z-index: 20;
+}
+.carousel-progress-bar { height: 100%; background: var(--Clr-main); width: 0%; }
+
+/* ================================================================
+   6. MENUS SECTION — single unified section (no more categories)
+   ----------------------------------------------------------------
+   All projects render in ONE section between the hero and the
+   footer. Its bottom clip-path is designed to line up exactly with
+   the footer's top clip-path, keeping the zigzag seamless.
+   ---------------------------------------------------------------- */
+.menus-wrap {
+  position: relative;
+  background: var(--clr-surface);
+  z-index: 1;
+  padding-top: calc(var(--skew) + 2rem);
+  padding-bottom: calc(var(--skew) * 2);
+  margin-bottom: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--skew)));
+}
+
+.menus-wrap > .section { border-top: 4px solid var(--Clr-main); }
+
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.section-header { margin-bottom: 2.5rem; }
+.section-title {
+  display: block; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; line-height: 1.3;
+}
+.section-title::after { content: ''; display: block; width: 40px; height: 2.5px; margin-top: 0.5rem; border-radius: 2px; background: linear-gradient(90deg, var(--Clr-main), var(--Clr-main-lt)); }
+.section-desc { display: block; font-size: 0.95rem; color: var(--clr-muted); line-height: 1.9; margin-top: 0.8rem; max-width: 660px; }
+
+/* ================================================================
+   7. PROJECT CARDS
+   ----------------------------------------------------------------
+   NOTE: the 3-dot color-palette swatches that used to sit next to
+   each project's text have been removed per client request — the
+   header now only contains the project name, description, and the
+   "View Online Menu" link.
+   ---------------------------------------------------------------- */
+.projects-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+
+.project-card {
+  background: var(--clr-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--clr-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.project-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+
+.project-header {
+  padding: 1.6rem 1.8rem 1.4rem;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.project-name { display: block; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.project-desc { display: block; font-size: 0.9rem; color: var(--clr-muted); line-height: 1.85; }
+
+/* "View Online Menu" link/button */
+.menu-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1rem;
+  padding: 8px 18px;
+  background: var(--clr-text);
+  color: var(--clr-white);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition);
+  border: 1.5px solid transparent;
+}
+.menu-link:hover { background: var(--Clr-main); border-color: var(--Clr-main); }
+.menu-link svg { flex-shrink: 0; }
+
+/* Gallery: 2 items side by side — [logo image] [preview video] */
+.project-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.gallery-item {
+  position: relative;
+  background: var(--clr-surface);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  border-top: 1px solid var(--clr-border);
+  border-right: 1px solid var(--clr-border);
+  aspect-ratio: 4/3;
+  transition: var(--transition);
+}
+.gallery-item.logo-item { cursor: default; }
+.gallery-item:last-child { border-right: none; }
+
+/* Real logo <img> (from the /logo folder) */
+.logo-image { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+/* Fallback shown by app.js only if the real logo file at ./logo/
+   fails to load (e.g. file not uploaded yet) */
+.logo-placeholder { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; width: 100%; height: 100%; padding: 2rem; text-align: center; }
+.logo-placeholder-frame { width: 120px; height: 120px; border-radius: var(--radius-md); background: var(--clr-border); display: flex; align-items: center; justify-content: center; border: 2px dashed var(--clr-sub); opacity: 0.5; }
+.logo-placeholder-frame svg { opacity: 0.4; }
+.logo-placeholder-text { font-size: 0.75rem; color: var(--clr-sub); }
+
+.gallery-video-wrap { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.gallery-video-wrap iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
+.video-play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.32); cursor: pointer; transition: var(--transition); }
+.video-play-btn:hover { background: rgba(200,150,12,0.4); }
+.video-play-btn svg { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+
+.gallery-item-label {
+  position: absolute; bottom: 0.6rem; left: 50%; transform: translateX(-50%);
+  font-size: 0.65rem; font-weight: 600; color: var(--clr-sub);
+  background: rgba(250,248,243,0.88); border: 1px solid var(--clr-border);
+  padding: 2px 10px; border-radius: 999px; white-space: nowrap; opacity: 0.8; backdrop-filter: blur(4px);
+}
+
+/* ================================================================
+   8. LIGHTBOX (kept as an unused utility class — no trigger wired
+      up currently; safe to delete if you never plan to use it)
+   ---------------------------------------------------------------- */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; }
+.lightbox.open { display: flex; }
+.lightbox-close { position: absolute; top: 1.25rem; right: 1.25rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.lightbox-close:hover { background: rgba(200,150,12,0.5); }
+.lightbox img { max-width: 90vw; max-height: 87vh; border-radius: var(--radius-md); box-shadow: 0 24px 64px rgba(0,0,0,0.6); }
+
+/* ================================================================
+   9. FOOTER
+   ---------------------------------------------------------------- */
+.site-footer {
+  background: var(--clr-footer-bg);
+  color: #9B9590;
+  clip-path: polygon(0 var(--skew), 100% 0, 100% 100%, 0 100%);
+  padding: calc(var(--skew) + 2.5rem) 1.5rem 1.75rem;
+  position: relative;
+  z-index: 0;
+}
+
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #242220; }
+
+.footer-brand .site-logo { color: #E8E4DC; }
+.footer-tagline { display: block; font-size: 0.85rem; color: #5A5754; line-height: 1.8; margin-top: 0.75rem; }
+
+.footer-contact-heading { display: block; font-size: 0.95rem; font-weight: 700; color: #E8E4DC; margin-bottom: 0.3rem; }
+
+.contact-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.contact-link { display: flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 500; transition: var(--transition); border: 1.5px solid transparent; }
+.contact-link.telegram { background: #162432; border-color: #1A4F72; color: #64B5F6; }
+.contact-link.telegram:hover { background: #1A4F72; color: #fff; }
+.contact-link.whatsapp { background: #162418; border-color: #1B5E20; color: #66BB6A; }
+.contact-link.whatsapp:hover { background: #1B5E20; color: #fff; }
+
+/* Instagram — tinted with the brand's pink/purple identity;
+   hover reveals the full official gradient */
+.contact-link.instagram { background: #2A1A2E; border-color: #833AB4; color: #E1306C; }
+.contact-link.instagram:hover {
+  background: linear-gradient(45deg, #FEDA75 0%, #FA7E1E 25%, #D62976 50%, #962FBF 75%, #4F5BD5 100%);
+  border-color: transparent; color: #fff;
+}
+
+.footer-bottom { padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.footer-copy { font-size: 0.8rem; color: #3A3836; }
+.footer-gold-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--Clr-main); opacity: 0.35; }
+
+/* ================================================================
+   10. SCROLL REVEAL
+   ---------------------------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+  .carousel-track { transition: none !important; }
+}
+
+/* ================================================================
+   11. RESPONSIVE
+   ---------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .footer-top { flex-direction: column; gap: 2rem; }
+  .carousel-caption { padding: 1rem 1.5rem 0; }
+  .logo-placeholder-frame { width: 90px; height: 90px; }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-h: 60px;
+    --skew: 2.5rem;
+    --hero-safe-gap: 1.75rem;
+  }
+
+  /* Only show the contact icon on very small screens to save space */
+  .btn-contact span { display: none; }
+  .btn-contact { padding: 9px; }
+  .header-inner { gap: 0.5rem; padding: 0 1rem; }
+
+  .project-gallery { grid-template-columns: 1fr; }
+  .gallery-item { border-right: none; aspect-ratio: 4/3; }
+
+  .contact-links { flex-direction: column; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+  .section { padding: 2rem 1rem; }
+
+  .carousel-btn { width: 38px; height: 38px; }
+  .carousel-btn.prev { right: 0.75rem; }
+  .carousel-btn.next { left: 0.75rem; }
+  .carousel-caption { padding: 1rem 1rem 0; }
+}
