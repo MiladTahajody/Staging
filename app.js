@@ -36,7 +36,7 @@ const heroSlides = [
     descEn:   'A novel and Distinct Sensory Experience of Nostalgia',
     descFa:   'تجربه حسی نوستالژی و متفاوت',
     bgColor:  'linear-gradient(135deg,#2C1A0E 0%,#4A2E18 100%)',
-    imgSrc:   '/heroimages/slide-1.jpg'
+    imgSrc:   'heroimages/slide-1.jpg'
   },
 
   {
@@ -47,7 +47,7 @@ const heroSlides = [
     descEn:   'Unique and Diverse',
     descFa:   'منحصر به فرد و متنوع',
     bgColor:  'linear-gradient(135deg,#0D1F12 0%,#1A3A22 100%)',
-    imgSrc:   '/heroimages/slide-2.jpg'
+    imgSrc:   'heroimages/slide-2.jpg'
   },
 
   {
@@ -58,7 +58,7 @@ const heroSlides = [
     descEn:   'Beautiful as Venus',
     descFa:   'زیبا همچون ونوس',
     bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   '/heroimages/slide-3.jpg'
+    imgSrc:   'heroimages/slide-3.jpg'
   },
 
   {
@@ -69,7 +69,7 @@ const heroSlides = [
     descEn:   'Creative and Modern Design',
     descFa:   'طراحی خلاقانه و مدرن',
     bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   '/heroimages/slide-4.jpg'
+    imgSrc:   'heroimages/slide-4.jpg'
   },
 
   {
@@ -80,7 +80,7 @@ const heroSlides = [
     descEn:   'Mysterious and Stunning',
     descFa:   'مرموز و خیره کننده',
     bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   '/heroimages/slide-5.jpg'
+    imgSrc:   'heroimages/slide-5.jpg'
   },
 
   {
@@ -91,7 +91,7 @@ const heroSlides = [
     descEn:   'Simple, Attractive, and Practical',
     descFa:   'ساده , جذاب و کاربردی',
     bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   '/heroimages/slide-6.jpg'
+    imgSrc:   'heroimages/slide-6.jpg'
   },
 
   {
@@ -102,7 +102,7 @@ const heroSlides = [
     descEn:   'Premium, Top-Tier Design',
     descFa:   'طراحی ممتاز و درجه یک',
     bgColor:  'linear-gradient(135deg,#0E1220 0%,#1A2038 100%)',
-    imgSrc:   '/heroimages/slide-7.jpg'
+    imgSrc:   'heroimages/slide-7.jpg'
   }
 ];
 
@@ -135,7 +135,7 @@ const allProjects = [
     descEn:  '● Six Colorful Styles</br>● Easy Navigations</br>● Image & Text Layouts</br>● Multi Language Support</br>● Interactive Item Selection',
     descFa:  '● شش مدل استایل رنگی</br>● ناوبری آسان و سریع</br>● مدل متنی ساده و عکس دار</br>● قابلیت پشتیبانی از چند زبانه</br>● امکان انتخاب تعاملی آیتمهای منو',
     menuUrl:  'https://digitalmenus.ir/Neon/',
-    logoSrc:  '/logo/Neon Logo.svg',
+    logoSrc:  'logo/Neon Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/-CP3qaPO0Js?autoplay=0&mute=1'
   },
   {
@@ -153,7 +153,7 @@ const allProjects = [
     descEn:  '● Five Unique Styles</br>● Multi Language</br>● Quick Navigation</br>● Image & Text Layouts</br>● Interactive Item Selection</br>● Horizontal & Vertical Scrolling',
     descFa:  '● پنج مدل استایل خاص</br>● قابلیت چند زبانه بودن</br>● ناوبری سریع بین دسته ها</br>● مدل متنی ساده و عکس دار</br>● انتخاب تعاملی آیتمهای داخل منو</br>● امکان اسکرول بصورت افقی و عمودی',
     menuUrl:  'https://digitalmenus.ir/Venus/',
-    logoSrc:  '/logo/Venus Logo.svg',
+    logoSrc:  'logo/Venus Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/a74OjP9Ug4A?autoplay=0&mute=1'
   },
   {
@@ -162,7 +162,7 @@ const allProjects = [
     descEn:  '● Unique Style</br>● Dual Language</br>● Text Only Layout</br>● Elevator Navigation</br>● Support For Additional Details',
     descFa:  '● استایل خاص</br>● دو زبانه همزمان</br>● مدل متنی ساده</br>● ناوبری آسانسوری</br>● امکان افزودن جزئیات بیشتر',
     menuUrl:  'https://digitalmenus.ir/Luma',
-    logoSrc:  '/logo/Luma Logo.svg',
+    logoSrc:  'logo/Luma Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/gW9keRaXP2U?autoplay=0&mute=1'
   },
   {
@@ -171,7 +171,7 @@ const allProjects = [
     descEn:  '● Unique Style</br>● Multi Language</br>● Quick Navigation</br>● Dark & Light Themes</br>● Image & Text Layouts</br>● Interactive Item Selection',
     descFa:  '● استایل خاص</br>● چند زبانه</br>● ناوبری سریع</br>● تم تیره و روشن</br>● مدل متنی ساده و عکس دار</br>● انتخاب تعاملی آیتمهای داخل منو',
     menuUrl:  'https://digitalmenus.ir/DarkZone/',
-    logoSrc:  '/logo/DarkZone Logo.svg',
+    logoSrc:  'logo/DarkZone Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/BkCnvu3krHY?autoplay=0&mute=1'
   },
   {
@@ -180,7 +180,7 @@ const allProjects = [
     descEn:  '● Unique Style</br>● Multi Language</br>● Page Navigation</br>● Text Only Layout</br>● Support For More Details',
     descFa:  '● استایل خاص</br>● دو یا تک زبانه</br>● ناوبری صفحه ای</br>● مدل متنی ساده</br>● امکان افزودن جزئیات بیشتر',
     menuUrl:  'https://digitalmenus.ir/Dream/',
-    logoSrc:  '/logo/Dream Logo.svg',
+    logoSrc:  'logo/Dream Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/vLtDetYh0os?autoplay=0&mute=1'
   },
   {
@@ -189,7 +189,7 @@ const allProjects = [
     descEn:  '● Unique Style</br>● Multi Language</br>● Quick Navigation</br>● Dark & Light Themes</br>● Image & Text Layouts</br>● Interactive Item Selection',
     descFa:  '● استایل خاص</br>● چند زبانه</br>● ناوبری سریع</br>● تم تیره و روشن</br>● متنی ساده یا عکس دار</br>● انتخاب تعاملی آیتمهای داخل منو',
     menuUrl:  'https://digitalmenus.ir/Honey/',
-    logoSrc:  '/logo/Honey Logo.svg',
+    logoSrc:  'logo/Honey Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/GhiIZZyk1Vg?autoplay=0&mute=1'
   }
 ];
