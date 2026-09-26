@@ -1,23 +1,3 @@
-/* ================================================================
-   DIGITAL MENUS — STYLESHEET
-   ----------------------------------------------------------------
-   File map (search these section numbers to jump around):
-     1. Design tokens (colors, fonts, radii, spacing)
-     2. Reset & base
-     3. Language visibility system (EN / FA — fully separated)
-     4. Header
-     5. Hero (static banner image)
-     6. Menus section (single unified section, no categories)
-     7. Project cards
-     8. Lightbox (unused placeholder, kept for future use)
-     9. Footer
-    10. Scroll reveal animation
-    11. Responsive breakpoints
-   ================================================================ */
-
-/* ================================================================
-   1. DESIGN TOKENS
-   ---------------------------------------------------------------- */
 :root {
   --clr-bg:         #ffffff;
   --clr-surface:    #EBEBEB;
@@ -30,22 +10,8 @@
   --clr-white:      #FFFFFF;
   --clr-footer-bg:  #141210;
 
-  /* --------------------------------------------------------------
-     FONT CONFIGURATION
-     --------------------------------------------------------------
-     This is the ONE place to swap fonts later. Change the values
-     below and the whole site updates automatically.
-     If you have a custom font file (.woff2), declare an @font-face
-     above this block and reference it here, e.g.:
-
-       @font-face {
-         font-family: 'MyEnglishFont';
-         src: url('./fonts/my-english-font.woff2') format('woff2');
-       }
-       --ff-en: 'MyEnglishFont', 'Outfit', sans-serif;
-  ------------------------------------------------------------- */
-  --ff-en: 'Outfit', sans-serif;    /* English font — change here */
-  --ff-fa: 'Vazirmatn', sans-serif; /* Persian font — change here */
+  --ff-en: 'Outfit', sans-serif;    
+  --ff-fa: 'Vazirmatn', sans-serif;
 
   --radius-sm:  6px;
   --radius-md: 14px;
@@ -56,29 +22,11 @@
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --header-h: 70px;
 
-  /* --------------------------------------------------------------
-     HERO IMAGE RATIO
-     --------------------------------------------------------------
-     Fixed width/height ratio for the hero photo — matches the
-     1920×1080 (16:9) PNG exported for heroimage.png. Used as-is on
-     mobile AND desktop, so the box shape always matches the image
-     shape exactly and nothing ever needs to be cropped. If you
-     later export the hero at a different ratio, update this one
-     value to match (e.g. 4/3, 21/9).
-  ------------------------------------------------------------- */
   --hero-ratio: 96 / 1;
 
-  /* Skew height used by the diagonal-cut zigzag between the hero,
-     the menus section, and the footer. Keep this value consistent
-     with the clip-path / margin math below — changing it updates
-     the whole zigzag system at once. NOTE: this only affects the
-     decorative cut, never the hero photo's own ratio above. */
   --skew: 5rem;
 }
 
-/* ================================================================
-   2. RESET & BASE
-   ---------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
@@ -86,42 +34,22 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
 body {
   background: var(--clr-bg);
   color: var(--clr-text);
-  font-family: var(--ff-en); /* default language is English */
+  font-family: var(--ff-en); 
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* needed because the clip-path skews create overflow */
+  overflow-x: hidden; 
 }
 
 img { display: block; max-width: 100%; }
 a   { text-decoration: none; color: inherit; }
 ul  { list-style: none; }
 
-/* ================================================================
-   3. LANGUAGE VISIBILITY SYSTEM
-   ----------------------------------------------------------------
-   The site is now FULLY single-language at any given moment —
-   English and Persian are never shown at the same time.
-
-   How it works:
-     • <html lang="en" dir="ltr">  → only ".lang-en" elements show
-     • <html lang="fa" dir="rtl">  → only ".lang-fa" elements show
-     • app.js toggles the lang/dir attributes when the user clicks
-       the EN / FA switch buttons in the header.
-     • Every bilingual text node in the markup carries BOTH its
-       specific styling class (e.g. "caption-title") AND a language
-       marker class ("lang-en" or "lang-fa"). The marker class only
-       controls visibility + font-family; the specific class
-       controls size/weight/color.
-   ---------------------------------------------------------------- */
 .lang-en { font-family: var(--ff-en); }
 .lang-fa { font-family: var(--ff-fa); }
 
 html[lang="en"] .lang-fa { display: none !important; }
 html[lang="fa"] .lang-en { display: none !important; }
 
-/* ================================================================
-   4. HEADER
-   ---------------------------------------------------------------- */
 .site-header {
   position: sticky;
   top: 0;
@@ -143,12 +71,8 @@ html[lang="fa"] .lang-en { display: none !important; }
   gap: 1rem;
 }
 
-/* Logo group: SVG placeholder + site name */
 .site-logo-group { display: flex; align-items: center; gap: 0.7rem; flex-shrink: 0; }
 
-/* SVG logo placeholder — replace the inline <svg> in index.html
-   with your real logo (or swap it for an <img src="logo/brand.svg">)
-   once it's ready. */
 .site-logo-mark {
   width: 38px; height: 38px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
@@ -158,7 +82,6 @@ html[lang="fa"] .lang-en { display: none !important; }
 
 .site-logo { font-size: 1.15rem; font-weight: 700; color: var(--clr-text); line-height: 1.25; }
 
-/* Right-side header actions: contact button + language switch */
 .header-actions { display: flex; align-items: center; gap: 0.6rem; }
 
 .btn-contact {
@@ -172,9 +95,6 @@ html[lang="fa"] .lang-en { display: none !important; }
 .btn-contact:hover { background: var(--clr-main); }
 .btn-contact svg { flex-shrink: 0; }
 
-/* Language switch — two-button toggle group (EN | FA).
-   The active language is bold + accent-colored; the inactive one
-   is muted. Clicking the inactive button switches the whole page. */
 .lang-switch {
   display: flex; align-items: center; gap: 2px;
   padding: 3px; border-radius: var(--radius-md);
@@ -189,41 +109,9 @@ html[lang="fa"] .lang-en { display: none !important; }
 .lang-btn[aria-pressed="true"] { background: var(--clr-main); color: var(--clr-text); box-shadow: var(--shadow-card); }
 .lang-btn:hover { color: var(--clr-text); }
 
-/* --------------------------------------------------------------
-   FIX FOR ISSUE #3 — the switch buttons weren't inheriting the
-   correct font. Each label is written in its OWN language ("EN"
-   is English text, "فا" is Persian text), so each one now always
-   uses its matching font variable, exactly like every other
-   bilingual element on the page. This is intentionally separate
-   from the .lang-en/.lang-fa classes above, because those also
-   control show/hide — we need BOTH buttons visible at all times.
-------------------------------------------------------------- */
 .lang-btn[data-lang="en"] { font-family: var(--ff-en); }
 .lang-btn[data-lang="fa"] { font-family: var(--ff-fa); }
 
-
-/* ================================================================
-   5. HERO — static banner image
-   ----------------------------------------------------------------
-   A single fixed photo (heroimage.png, placed at the project root)
-   instead of the old sliding carousel. Structure:
-
-     .hero-section  → outer clip-path wrapper for the zigzag cut
-       .hero-banner       → adds the skew padding-bottom
-         .hero-banner-photo  → the visible photo band, locked to
-                                --hero-ratio (16:9) on every device
-                                and painted with background-size:
-                                contain, so the full photo always
-                                shows with no cropping — only a
-                                missing/mismatched file would ever
-                                show a thin letterbox edge.
-
-   Zigzag system: the hero only needs its own height, and a negative
-   bottom margin equal to --skew. The section below (menus) has
-   padding-top > --skew and sits fully underneath the hero, so the
-   hero's diagonal clip-path reveals that section's flat color
-   through the cut — giving a seamless angled transition.
-   ---------------------------------------------------------------- */
 .hero-section {
   position: relative;
   z-index: 4;
@@ -234,28 +122,21 @@ html[lang="fa"] .lang-en { display: none !important; }
 .hero-banner {
   position: relative;
   width: 100%;
-  padding-bottom: var(--skew); /* reserved for the decorative skew cut — not part of the photo */
+  padding-bottom: var(--skew);
   background: #0E0C0A;
 }
 
 .hero-banner-photo {
   width: 100%;
-  aspect-ratio: var(--hero-ratio); /* fixed on every device — box shape always matches the photo's shape */
+  aspect-ratio: var(--hero-ratio);
   overflow: hidden;
   background-image: url('heroimage.png');
-  background-size: contain;   /* never crops — shows the full image, even in a rare ratio mismatch */
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #0E0C0A; /* fills any edge gap (or shows if the file is missing) */
+  background-color: #0E0C0A;
 }
 
-/* ================================================================
-   6. MENUS SECTION — single unified section (no more categories)
-   ----------------------------------------------------------------
-   All projects render in ONE section between the hero and the
-   footer. Its bottom clip-path is designed to line up exactly with
-   the footer's top clip-path, keeping the zigzag seamless.
-   ---------------------------------------------------------------- */
 .menus-wrap {
   position: relative;
   background: var(--clr-surface);
@@ -281,14 +162,6 @@ html[lang="fa"] .lang-en { display: none !important; }
 .section-title::after { content: ''; display: block; width: 40px; height: 2.5px; margin-top: 0.5rem; border-radius: 2px; background: linear-gradient(90deg, var(--Clr-main), var(--Clr-main-lt)); }
 .section-desc { display: block; font-size: 0.95rem; color: var(--clr-muted); line-height: 1.9; margin-top: 0.8rem; max-width: 660px; }
 
-/* ================================================================
-   7. PROJECT CARDS
-   ----------------------------------------------------------------
-   NOTE: the 3-dot color-palette swatches that used to sit next to
-   each project's text have been removed per client request — the
-   header now only contains the project name, description, and the
-   "View Online Menu" link.
-   ---------------------------------------------------------------- */
 .projects-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
 
 .project-card {
@@ -309,7 +182,6 @@ html[lang="fa"] .lang-en { display: none !important; }
 .project-name { display: block; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
 .project-desc { display: block; font-size: 0.9rem; color: var(--clr-muted); line-height: 1.85; }
 
-/* "View Online Menu" link/button */
 .menu-link {
   display: inline-flex;
   align-items: center;
@@ -327,7 +199,6 @@ html[lang="fa"] .lang-en { display: none !important; }
 .menu-link:hover { background: var(--clr-main); color: var(--clr-text); border-radius: var(--radius-md); }
 .menu-link svg { flex-shrink: 0; }
 
-/* Gallery: 2 items side by side — [logo image] [preview video] */
 .project-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 .gallery-item {
   position: relative;
@@ -342,11 +213,8 @@ html[lang="fa"] .lang-en { display: none !important; }
 .gallery-item.logo-item { cursor: default; }
 .gallery-item:last-child { border-right: none; }
 
-/* Real logo <img> (from the /logo folder) */
 .logo-image { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-/* Fallback shown by app.js only if the real logo file at ./logo/
-   fails to load (e.g. file not uploaded yet) */
 .logo-placeholder { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; width: 100%; height: 100%; padding: 2rem; text-align: center; }
 .logo-placeholder-frame { width: 120px; height: 120px; border-radius: var(--radius-md); background: var(--clr-border); display: flex; align-items: center; justify-content: center; border: 2px dashed var(--clr-sub); opacity: 0.5; }
 .logo-placeholder-frame svg { opacity: 0.4; }
@@ -365,19 +233,12 @@ html[lang="fa"] .lang-en { display: none !important; }
   padding: 2px 10px; border-radius: 999px; white-space: nowrap; opacity: 0.8; backdrop-filter: blur(4px);
 }
 
-/* ================================================================
-   8. LIGHTBOX (kept as an unused utility class — no trigger wired
-      up currently; safe to delete if you never plan to use it)
-   ---------------------------------------------------------------- */
 .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; }
 .lightbox.open { display: flex; }
 .lightbox-close { position: absolute; top: 1.25rem; right: 1.25rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
 .lightbox-close:hover { background: rgba(200,150,12,0.5); }
 .lightbox img { max-width: 90vw; max-height: 87vh; border-radius: var(--radius-md); box-shadow: 0 24px 64px rgba(0,0,0,0.6); }
 
-/* ================================================================
-   9. FOOTER
-   ---------------------------------------------------------------- */
 .site-footer {
   background: var(--clr-footer-bg);
   color: #9B9590;
@@ -413,18 +274,12 @@ html[lang="fa"] .lang-en { display: none !important; }
 .footer-bottom { padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .footer-copy { font-size: 0.8rem; color: #3A3836; }
 
-/* ================================================================
-   10. SCROLL REVEAL
-   ---------------------------------------------------------------- */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
 .reveal.visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
 }
 
-/* ================================================================
-   11. RESPONSIVE
-   ---------------------------------------------------------------- */
 @media (max-width: 900px) {
   .footer-top { flex-direction: column; gap: 2rem; }
   .logo-placeholder-frame { width: 90px; height: 90px; }
@@ -436,7 +291,6 @@ html[lang="fa"] .lang-en { display: none !important; }
     --skew: 2.5rem;
   }
 
-  /* Only show the contact icon on very small screens to save space */
   .btn-contact span { display: none; }
   .btn-contact { padding: 9px; }
   .header-inner { gap: 0.5rem; padding: 0 1rem; }
