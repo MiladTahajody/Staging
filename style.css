@@ -468,7 +468,7 @@ html[lang="fa"] .lang-en { display: none !important; }
 .footer-contact-heading { display: block; font-size: 0.95rem; font-weight: 700; color: #E8E4DC; margin-bottom: 0.3rem; }
 
 .contact-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
-.contact-link { display: flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 500; transition: var(--transition); border: 1.5px solid transparent; }
+.contact-link { display: flex; align-items: center; gap: 10px; padding: 16px 40px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 500; transition: var(--transition); border: 1.5px solid transparent; }
 .contact-link.telegram { background: #162432; border-color: #1A4F72; color: #64B5F6; }
 .contact-link.telegram:hover { background: #1A4F72; color: #fff; }
 .contact-link.whatsapp { background: #162418; border-color: #1B5E20; color: #66BB6A; }
