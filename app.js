@@ -4,7 +4,7 @@ const allProjects = [
     nameEn:  'Neon',
     nameFa:  'نئون',
     descEn:  '● Six Colorful Styles</br>● Easy Navigations</br>● Image & Text Layouts</br>● Multi Language Support</br>● Interactive Item Selection',
-    descFa:  '● شش مدل استایل رنگی</br>● ناوبری آسان و سریع</br>● مدل متنی ساده و عکس دار</br>● قابلیت پشتیبانی از چند زبانه</br>● امکان انتخاب تعاملی آیتمهای منو',
+    descFa:  '● شش مدل استایل رنگی</br>● ناوبری آسان و سریع</br>● مدل متنی ساده و عکس دار</br>● قابلیت پشتیبانی از چند زبانه</br>● امکان انتخاب تعاملی آیتم های منو',
     menuUrl:  'https://digitalmenus.ir/Neon/',
     logoSrc:  'logo/Neon Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/-CP3qaPO0Js?autoplay=0&mute=1'
@@ -13,7 +13,7 @@ const allProjects = [
     nameEn:  'Aroma',
     nameFa:  'آروما',
     descEn:  '● Six Exclusive Styles</br>● Hybrid Navigations</br>● Image & Text Layouts</br>● Multi Language Support</br>● Interactive Item Selection',
-    descFa:  '● شش مدل استایل لاکچری</br>● ناوبری دو حالته ترکیبی</br>● آیتمهای متنی ساده و عکس دار</br>● پشتیبانی از حالت چند زبانه</br>● انتخاب تعاملی آیتمهای داخل منو',
+    descFa:  '● شش مدل استایل لاکچری</br>● ناوبری دو حالته ترکیبی</br>● آیتمهای متنی ساده و عکس دار</br>● پشتیبانی از حالت چند زبانه</br>● انتخاب تعاملی آیتم های داخل منو',
     menuUrl:  'https://digitalmenus.ir/Aroma/',
     logoSrc:  'logo/Aroma Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/iClq5V2MxEg?autoplay=0&mute=1'
@@ -22,7 +22,7 @@ const allProjects = [
     nameEn:  'Venus',
     nameFa:  'ونوس',
     descEn:  '● Five Unique Styles</br>● Multi Language</br>● Quick Navigation</br>● Image & Text Layouts</br>● Interactive Item Selection</br>● Horizontal & Vertical Scrolling',
-    descFa:  '● پنج مدل استایل خاص</br>● قابلیت چند زبانه بودن</br>● ناوبری سریع بین دسته ها</br>● مدل متنی ساده و عکس دار</br>● انتخاب تعاملی آیتمهای داخل منو</br>● امکان اسکرول بصورت افقی و عمودی',
+    descFa:  '● پنج مدل استایل خاص</br>● قابلیت چند زبانه بودن</br>● ناوبری سریع بین دسته ها</br>● مدل متنی ساده و عکس دار</br>● انتخاب تعاملی آیتم های داخل منو</br>● امکان اسکرول بصورت افقی و عمودی',
     menuUrl:  'https://digitalmenus.ir/Venus/',
     logoSrc:  'logo/Venus Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/a74OjP9Ug4A?autoplay=0&mute=1'
@@ -40,7 +40,7 @@ const allProjects = [
     nameEn:  'Dark Zone',
     nameFa:  'دارک زون',
     descEn:  '● Unique Style</br>● Multi Language</br>● Quick Navigation</br>● Dark & Light Themes</br>● Image & Text Layouts</br>● Interactive Item Selection',
-    descFa:  '● استایل خاص</br>● چند زبانه</br>● ناوبری سریع</br>● تم تیره و روشن</br>● مدل متنی ساده و عکس دار</br>● انتخاب تعاملی آیتمهای داخل منو',
+    descFa:  '● استایل خاص</br>● چند زبانه</br>● ناوبری سریع</br>● تم تیره و روشن</br>● مدل متنی ساده و عکس دار</br>● انتخاب تعاملی آیتم های داخل منو',
     menuUrl:  'https://digitalmenus.ir/DarkZone/',
     logoSrc:  'logo/DarkZone Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/BkCnvu3krHY?autoplay=0&mute=1'
@@ -58,7 +58,7 @@ const allProjects = [
     nameEn:  'Honey',
     nameFa:  'هانی',
     descEn:  '● Unique Style</br>● Multi Language</br>● Quick Navigation</br>● Dark & Light Themes</br>● Image & Text Layouts</br>● Interactive Item Selection',
-    descFa:  '● استایل خاص</br>● چند زبانه</br>● ناوبری سریع</br>● تم تیره و روشن</br>● متنی ساده یا عکس دار</br>● انتخاب تعاملی آیتمهای داخل منو',
+    descFa:  '● استایل خاص</br>● چند زبانه</br>● ناوبری سریع</br>● تم تیره و روشن</br>● متنی ساده یا عکس دار</br>● انتخاب تعاملی آیتم های داخل منو',
     menuUrl:  'https://digitalmenus.ir/Honey/',
     logoSrc:  'logo/Honey Logo.svg',
     videoSrc: 'https://www.youtube.com/embed/GhiIZZyk1Vg?autoplay=0&mute=1'
