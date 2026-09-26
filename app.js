@@ -4,110 +4,20 @@
    DIGITAL MENUS — APP LOGIC
    ----------------------------------------------------------------
    File map:
-     F1. Data — hero carousel slides
-     F2. Data — all projects (single unified list, no categories)
-     F3. Hero carousel (infinite loop, clone-based)
-     F4. Language switch (EN / FA — fully separated, not simultaneous)
-     F5. Build the menus section + project cards
-     F6. Video play button
-     F7. Scroll reveal animation
+     F1. Data — all projects (single unified list, no categories)
+     F2. Language switch (EN / FA — fully separated, not simultaneous)
+     F3. Build the menus section + project cards
+     F4. Video play button
+     F5. Scroll reveal animation
+
+   NOTE: the hero is now a single static image (heroimage.png at the
+   project root, see index.html section B and style.css section 5),
+   so the old hero-carousel data and slider logic have been removed
+   entirely — there is no more per-slide JS to configure.
    ================================================================ */
 
 /* ================================================================
-   F1. DATA — HERO CAROUSEL SLIDES
-   ----------------------------------------------------------------
-   imgSrc points to the "heroimages" folder that must sit next
-   to index.html at the project root, e.g.:
-     /index.html
-     /style.css
-     /app.js
-     /heroimages/slide-1.jpg
-     /heroimages/slide-2.jpg
-     ...
-   If an image file is missing, a placeholder is shown automatically
-   (see the onerror handler in makeSlide() below).
-   ================================================================ */
-const heroSlides = [
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Neon',
-    titleFa:  'نئون',
-    descEn:   'A novel and Distinct Sensory Experience of Nostalgia',
-    descFa:   'تجربه حسی نوستالژی و متفاوت',
-    bgColor:  'linear-gradient(135deg,#2C1A0E 0%,#4A2E18 100%)',
-    imgSrc:   'heroimages/slide-1.jpg'
-  },
-
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Aroma',
-    titleFa:  'آروما',
-    descEn:   'Unique and Diverse',
-    descFa:   'منحصر به فرد و متنوع',
-    bgColor:  'linear-gradient(135deg,#0D1F12 0%,#1A3A22 100%)',
-    imgSrc:   'heroimages/slide-2.jpg'
-  },
-
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Venus',
-    titleFa:  'ونوس',
-    descEn:   'Beautiful as Venus',
-    descFa:   'زیبا همچون ونوس',
-    bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   'heroimages/slide-3.jpg'
-  },
-
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Luma',
-    titleFa:  'لوما',
-    descEn:   'Creative and Modern Design',
-    descFa:   'طراحی خلاقانه و مدرن',
-    bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   'heroimages/slide-4.jpg'
-  },
-
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Dark Zone',
-    titleFa:  'دارک زون',
-    descEn:   'Mysterious and Stunning',
-    descFa:   'مرموز و خیره کننده',
-    bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   'heroimages/slide-5.jpg'
-  },
-
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Dream',
-    titleFa:  'دریم',
-    descEn:   'Simple, Attractive, and Practical',
-    descFa:   'ساده , جذاب و کاربردی',
-    bgColor:  'linear-gradient(135deg,#2A0E06 0%,#4A1A0A 100%)',
-    imgSrc:   'heroimages/slide-6.jpg'
-  },
-
-  {
-    categoryEn: 'Online Digital Menu',
-    categoryFa: 'منوی دیجیتال آنلاین',
-    titleEn:  'Honey',
-    titleFa:  'هانی',
-    descEn:   'Premium, Top-Tier Design',
-    descFa:   'طراحی ممتاز و درجه یک',
-    bgColor:  'linear-gradient(135deg,#0E1220 0%,#1A2038 100%)',
-    imgSrc:   'heroimages/slide-7.jpg'
-  }
-];
-
-/* ================================================================
-   F2. DATA — ALL PROJECTS (single unified list — no categories)
+   F1. DATA — ALL PROJECTS (single unified list — no categories)
    ----------------------------------------------------------------
    logoSrc points to the "logo" folder that must sit next to
    index.html at the project root, e.g.:
@@ -207,190 +117,7 @@ const menuSection = {
 
 
 /* ================================================================
-   F3. HERO CAROUSEL — infinite loop (clone-based)
-   ================================================================ */
-(function initCarousel() {
-  const track       = document.getElementById('carouselTrack');
-  const dotsWrap    = document.getElementById('carouselDots');
-  const btnPrev     = document.getElementById('btnPrev');
-  const btnNext     = document.getElementById('btnNext');
-  const progressBar = document.getElementById('progressBar');
-  const AUTOPLAY_MS = 5500;
-  const N           = heroSlides.length;
-
-  let realIndex   = 0;
-  let trackIndex  = 1;
-  let isAnimating = false;
-  let autoTimer   = null;
-
-  function makeSlide(slide, isClone) {
-    const el = document.createElement('div');
-    el.className = 'carousel-slide';
-    if (!isClone) el.setAttribute('role', 'tabpanel');
-
-    /* Try loading the real slide image from /heroimages/.
-       If it 404s, fall back to a colored placeholder block. */
-    const img = document.createElement('img');
-    img.className = 'carousel-slide-img';
-    img.alt       = slide.titleEn;
-    img.loading   = 'lazy';
-    img.onerror   = () => { img.style.display = 'none'; ph.style.display = 'flex'; };
-    img.src       = slide.imgSrc;
-    el.appendChild(img);
-
-    const ph = document.createElement('div');
-    ph.className        = 'slide-placeholder';
-    ph.style.background = slide.bgColor;
-    ph.style.display    = 'none'; /* only shown by the onerror handler above */
-    ph.innerHTML = `
-      <svg class="slide-placeholder-icon" width="56" height="56" fill="none"
-           stroke="rgba(255,255,255,0.5)" stroke-width="1" viewBox="0 0 24 24">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <circle cx="8.5" cy="8.5" r="1.5"/>
-        <path d="M21 15l-5-5L5 21"/>
-      </svg>
-      <span class="slide-placeholder-label">${slide.titleEn} / Image missing</span>`;
-    el.appendChild(ph);
-
-    if (!isClone) {
-      const cap = document.createElement('div');
-      cap.className = 'carousel-caption';
-      /* Both languages are rendered; the LANGUAGE VISIBILITY SYSTEM
-         in style.css (section 3) hides whichever one is inactive. */
-      cap.innerHTML = `
-        <span class="caption-tag lang-en">${slide.categoryEn}</span>
-        <span class="caption-tag lang-fa">${slide.categoryFa}</span>
-        <h2 class="caption-title lang-en">${slide.titleEn}</h2>
-        <h2 class="caption-title lang-fa">${slide.titleFa}</h2>
-        <p class="caption-desc lang-en">${slide.descEn}</p>
-        <p class="caption-desc lang-fa">${slide.descFa}</p>`;
-      el.appendChild(cap);
-    }
-    return el;
-  }
-
-  track.appendChild(makeSlide(heroSlides[N - 1], true));
-  heroSlides.forEach((s, i) => {
-    const sl = makeSlide(s, false);
-    if (i === 0) sl.classList.add('is-active');
-    track.appendChild(sl);
-  });
-  track.appendChild(makeSlide(heroSlides[0], true));
-
-  heroSlides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', `Slide ${i + 1}`);
-    dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-    dot.addEventListener('click', () => { goTo(i); restartAutoplay(); });
-    dotsWrap.appendChild(dot);
-  });
-
-  const allSlides = () => track.querySelectorAll('.carousel-slide');
-  const dots      = () => dotsWrap.querySelectorAll('.dot');
-
-  function jumpTo(idx) {
-    track.style.transition = 'none';
-    track.style.transform  = `translateX(${idx * 100}%)`;
-  }
-
-  function slideTo(idx) {
-    track.style.transition = 'transform 0.72s cubic-bezier(0.77,0,0.18,1)';
-    track.style.transform  = `translateX(${idx * 100}%)`;
-  }
-
-  function updateUI(newReal) {
-    allSlides().forEach(s => s.classList.remove('is-active'));
-    allSlides()[newReal + 1].classList.add('is-active');
-    dots().forEach((d, i) => {
-      const a = i === newReal;
-      d.classList.toggle('active', a);
-      d.setAttribute('aria-selected', a);
-    });
-    realIndex  = newReal;
-    trackIndex = newReal + 1;
-  }
-
-  function goTo(n) {
-    if (isAnimating) return;
-    isAnimating = true;
-    slideTo(n + 1);
-    updateUI(n);
-    startProgress();
-    setTimeout(() => { isAnimating = false; }, 760);
-  }
-
-  function goNext() {
-    if (isAnimating) return;
-    isAnimating = true;
-    const next = trackIndex + 1;
-    slideTo(next);
-    trackIndex = next;
-    setTimeout(() => {
-      if (trackIndex >= N + 1) { jumpTo(1); trackIndex = 1; realIndex = 0; }
-      else { realIndex = trackIndex - 1; }
-      updateUI(realIndex);
-      trackIndex = realIndex + 1;
-      isAnimating = false;
-    }, 740);
-    startProgress();
-  }
-
-  function goPrev() {
-    if (isAnimating) return;
-    isAnimating = true;
-    const prev = trackIndex - 1;
-    slideTo(prev);
-    trackIndex = prev;
-    setTimeout(() => {
-      if (trackIndex <= 0) { jumpTo(N); trackIndex = N; realIndex = N - 1; }
-      else { realIndex = trackIndex - 1; }
-      updateUI(realIndex);
-      trackIndex = realIndex + 1;
-      isAnimating = false;
-    }, 740);
-    startProgress();
-  }
-
-  jumpTo(1);
-
-  function startAutoplay()   { clearInterval(autoTimer); autoTimer = setInterval(goNext, AUTOPLAY_MS); }
-  function restartAutoplay() { clearInterval(autoTimer); startAutoplay(); }
-
-  function startProgress() {
-    progressBar.style.transition = 'none';
-    progressBar.style.width = '0%';
-    progressBar.getBoundingClientRect();
-    progressBar.style.transition = `width ${AUTOPLAY_MS}ms linear`;
-    progressBar.style.width = '100%';
-  }
-
-  btnPrev.addEventListener('click', () => { goPrev(); restartAutoplay(); });
-  btnNext.addEventListener('click', () => { goNext(); restartAutoplay(); });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') { goPrev(); restartAutoplay(); }
-    if (e.key === 'ArrowLeft')  { goNext(); restartAutoplay(); }
-  });
-
-  let touchX = 0;
-  const car  = document.getElementById('heroCarousel');
-  car.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive:true });
-  car.addEventListener('touchend',   e => {
-    const diff = touchX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 45) { diff > 0 ? goNext() : goPrev(); restartAutoplay(); }
-  }, { passive:true });
-  car.addEventListener('mouseenter', () => clearInterval(autoTimer));
-  car.addEventListener('mouseleave', startAutoplay);
-
-  startProgress();
-  startAutoplay();
-})();
-
-
-/* ================================================================
-   F4. LANGUAGE SWITCH — fully separated EN / FA (not simultaneous)
+   F2. LANGUAGE SWITCH — fully separated EN / FA (not simultaneous)
    ----------------------------------------------------------------
    Clicking EN or FA in the header:
      1. Sets <html lang="en|fa" dir="ltr|rtl">
@@ -433,7 +160,7 @@ const menuSection = {
 
 
 /* ================================================================
-   F5. BUILD THE MENUS SECTION + PROJECT CARDS
+   F3. BUILD THE MENUS SECTION + PROJECT CARDS
    ----------------------------------------------------------------
    Each project card gallery has 2 items side by side:
      [left]  real logo image from /logo (falls back to a dashed
@@ -566,7 +293,7 @@ function buildProjectCard(proj, pIdx) {
 
 
 /* ================================================================
-   F6. VIDEO PLAY — clicking the play button starts the embed
+   F4. VIDEO PLAY — clicking the play button starts the embed
    ================================================================ */
 (function initVideoPlay() {
   document.addEventListener('click', e => {
@@ -585,7 +312,7 @@ function buildProjectCard(proj, pIdx) {
 
 
 /* ================================================================
-   F7. SCROLL REVEAL — fades/slides elements in as they enter view
+   F5. SCROLL REVEAL — fades/slides elements in as they enter view
    ================================================================ */
 (function initReveal() {
   const io = new IntersectionObserver(entries => {

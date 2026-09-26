@@ -3,28 +3,28 @@
   ================================================================
   DIGITAL MENUS — Bilingual (EN/FA) portfolio page
   ----------------------------------------------------------------
-  v8 — split into 3 files (index.html / style.css / app.js) with
-  the following behavior changes from the previous single-file
-  version:
+  v9 — the hero carousel has been removed and replaced with a
+  single static banner image:
 
-    1. Languages are now FULLY separated. English and Persian are
-       never shown at the same time — the language switch in the
-       header hides the inactive language entirely and flips the
-       page between LTR/RTL. See style.css section 3 and app.js
-       section F4 for the mechanism.
-    2. The 3 color-palette dots that used to sit inside each
-       project card have been removed.
-    3. Hero carousel images now load from a root-level folder
-       named "heroimages"; each project's logo (svg or png)
-       loads from a root-level folder named "logo". Both fall back
-       to a placeholder automatically if a file is missing.
+    • heroimage.png sits at the project root (next to index.html) —
+      export it at 1920×1080 (16:9) PNG; SVG isn't a good fit for a
+      photographic/rendered banner like this.
+    • The display box is locked to the SAME 16:9 ratio as the file
+      (--hero-ratio in style.css section 1) on both mobile and
+      desktop, so the shape always matches and the photo is never
+      cropped — only the physical size scales.
+    • It's applied as a CSS background-image with background-size:
+      contain (style.css section 5), so even in a rare ratio
+      mismatch you'd see a thin letterbox edge, never a crop.
+    • The "heroimages" folder and all carousel data/JS/CSS from the
+      previous version have been removed.
 
   Expected folder structure once you drop your real files in:
     /index.html
     /style.css
     /app.js
-    /heroimages/slide-1.jpg  slide-2.jpg  slide-3.jpg  slide-4.jpg
-    /logo/cafe-aramesh.svg  cafe-nou.svg  ... (see app.js F2 for
+    /heroimage.png
+    /logo/cafe-aramesh.svg  cafe-nou.svg  ... (see app.js F1 for
        the exact filename each project expects)
   ================================================================
 -->
@@ -40,7 +40,7 @@
   <!-- Fonts: Outfit (English) + Vazirmatn (Persian) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
   <!-- External stylesheet — see style.css for all design tokens,
@@ -99,27 +99,14 @@
 
 
   <!-- ============================================================
-       B. HERO — image carousel (unchanged model/layout, per client
-          request — only the image folder path changed, see app.js)
+       B. HERO — static banner image (heroimage.png at the project
+          root, 16:9). Box ratio is locked to match it exactly on
+          every device, so the photo is never cropped — see
+          style.css section 5 (--hero-ratio) for details.
   ============================================================ -->
   <section id="home" class="hero-section" aria-label="Intro">
-    <!-- #heroCarousel = outer box (adds the decorative skew padding).
-         .hero-visual  = the actual fixed-ratio photo box (see
-         style.css sections 1 & 5 for the issue #1 / #2 fixes). -->
-    <div class="hero-carousel" id="heroCarousel">
-      <div class="hero-visual">
-        <div class="carousel-track" id="carouselTrack"></div>
-        <button class="carousel-btn prev" id="btnPrev" aria-label="Previous slide">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-        <button class="carousel-btn next" id="btnNext" aria-label="Next slide">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <div class="carousel-dots" id="carouselDots" role="tablist"></div>
-        <div class="carousel-progress" aria-hidden="true">
-          <div class="carousel-progress-bar" id="progressBar"></div>
-        </div>
-      </div>
+    <div class="hero-banner">
+      <div class="hero-banner-photo" role="img" aria-label="Digital Menus"></div>
     </div>
   </section>
 
@@ -189,7 +176,7 @@
   </footer>
 
 
-  <!-- External app logic — see app.js for data, carousel, language
+  <!-- External app logic — see app.js for project data, language
        switch, and card-building logic -->
   <script src="app.js"></script>
 </body>
