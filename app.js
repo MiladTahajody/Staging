@@ -1,43 +1,4 @@
 'use strict';
-
-/* ================================================================
-   DIGITAL MENUS — APP LOGIC
-   ----------------------------------------------------------------
-   File map:
-     F1. Data — all projects (single unified list, no categories)
-     F2. Language switch (EN / FA — fully separated, not simultaneous)
-     F3. Build the menus section + project cards
-     F4. Video play button
-     F5. Scroll reveal animation
-
-   NOTE: the hero is now a single static image (heroimage.png at the
-   project root, see index.html section B and style.css section 5),
-   so the old hero-carousel data and slider logic have been removed
-   entirely — there is no more per-slide JS to configure.
-   ================================================================ */
-
-/* ================================================================
-   F1. DATA — ALL PROJECTS (single unified list — no categories)
-   ----------------------------------------------------------------
-   logoSrc points to the "logo" folder that must sit next to
-   index.html at the project root, e.g.:
-     /logo/cafe-aramesh.svg
-     /logo/cafe-nou.svg
-     ...
-   Accepts .svg or .png. If a logo file is missing, a dashed
-   placeholder box is shown automatically (see buildProjectCard()).
-
-   NOTE: the color-palette swatches field has been removed from
-   this data model per client request — project cards no longer
-   display the 3 brand-color dots.
-
-   To add a new project, just push a new object onto this array:
-     nameEn / nameFa : project name
-     descEn / descFa : short description
-     menuUrl         : live menu link  ← replace YOUR_MENU_URL
-     logoSrc         : path to the logo file in /logo
-     videoSrc        : YouTube embed URL ← replace VIDEO_ID_N
-   ================================================================ */
 const allProjects = [
   {
     nameEn:  'Neon',
@@ -104,8 +65,6 @@ const allProjects = [
   }
 ];
 
-/* Single unified section that now holds every project
-   (previously split across café / restaurant / fast-food) */
 const menuSection = {
   id:       'menus',
   nameEn:   'Our Digital Menus',
@@ -115,18 +74,6 @@ const menuSection = {
   projects: allProjects
 };
 
-
-/* ================================================================
-   F2. LANGUAGE SWITCH — fully separated EN / FA (not simultaneous)
-   ----------------------------------------------------------------
-   Clicking EN or FA in the header:
-     1. Sets <html lang="en|fa" dir="ltr|rtl">
-     2. style.css section 3 then hides every ".lang-en" OR every
-        ".lang-fa" element accordingly — the inactive language is
-        fully removed from the page, not just shrunk.
-     3. Updates the button group's aria-pressed state.
-     4. Remembers the choice in localStorage for the next visit.
-   ================================================================ */
 (function initLanguageSwitch() {
   const root    = document.documentElement;
   const buttons = document.querySelectorAll('.lang-btn');
@@ -141,32 +88,22 @@ const menuSection = {
     });
   }
 
-  /* Restore the visitor's previous choice, if any */
   let initialLang = 'en';
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved === 'en' || saved === 'fa') initialLang = saved;
-  } catch (e) { /* localStorage unavailable — fall back to default "en" */ }
+  } catch (e) {}
   setLanguage(initialLang);
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const lang = btn.dataset.lang;
       setLanguage(lang);
-      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
     });
   });
 })();
 
-
-/* ================================================================
-   F3. BUILD THE MENUS SECTION + PROJECT CARDS
-   ----------------------------------------------------------------
-   Each project card gallery has 2 items side by side:
-     [left]  real logo image from /logo (falls back to a dashed
-             placeholder box if the file is missing)
-     [right] video embed with a play button overlay
-   ================================================================ */
 (function buildSection() {
   const container = document.getElementById('sectionsContainer');
   const cat = menuSection;
@@ -199,15 +136,11 @@ const menuSection = {
   container.appendChild(wrap);
 })();
 
-/* Builds a single project card element (kept as its own function
-   for readability — called once per project above) */
 function buildProjectCard(proj, pIdx) {
   const card = document.createElement('div');
   card.className = 'project-card reveal';
   card.style.transitionDelay = `${pIdx * 0.08}s`;
 
-  /* "View Online Menu" link — replace proj.menuUrl with the real
-     live-menu URL for each project */
   const menuLinkHTML = `
     <a href="${proj.menuUrl}" target="_blank" rel="noopener noreferrer" class="menu-link">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
@@ -232,7 +165,6 @@ function buildProjectCard(proj, pIdx) {
   const gallery = document.createElement('div');
   gallery.className = 'project-gallery';
 
-  /* ── Gallery item 1: real logo image, with placeholder fallback ── */
   const logoItem = document.createElement('div');
   logoItem.className = 'gallery-item logo-item';
   logoItem.setAttribute('aria-label', `Logo — ${proj.nameEn}`);
@@ -256,19 +188,14 @@ function buildProjectCard(proj, pIdx) {
     <span class="logo-placeholder-text lang-en">Logo file missing</span>
     <span class="logo-placeholder-text lang-fa">فایل لوگو یافت نشد</span>`;
 
-  /* If the logo file doesn't exist yet at /logo/, show the dashed
-     placeholder instead of a broken image icon */
   logoImg.onerror = () => { logoImg.style.display = 'none'; logoFallback.style.display = 'flex'; };
   logoImg.src = proj.logoSrc;
 
   logoItem.appendChild(logoImg);
   logoItem.appendChild(logoFallback);
-  /*logoItem.insertAdjacentHTML('beforeend', `
-    <span class="gallery-item-label lang-en">Logo</span>
-    <span class="gallery-item-label lang-fa">لوگو</span>`);*/
+
   gallery.appendChild(logoItem);
 
-  /* ── Gallery item 2: video embed with play button ── */
   const videoItem = document.createElement('div');
   videoItem.className = 'gallery-item';
   videoItem.dataset.type = 'video';
@@ -291,10 +218,6 @@ function buildProjectCard(proj, pIdx) {
   return card;
 }
 
-
-/* ================================================================
-   F4. VIDEO PLAY — clicking the play button starts the embed
-   ================================================================ */
 (function initVideoPlay() {
   document.addEventListener('click', e => {
     const pb = e.target.closest('.video-play-btn');
@@ -310,10 +233,6 @@ function buildProjectCard(proj, pIdx) {
   });
 })();
 
-
-/* ================================================================
-   F5. SCROLL REVEAL — fades/slides elements in as they enter view
-   ================================================================ */
 (function initReveal() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
